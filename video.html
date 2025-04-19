@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars */
+        }
+        #videoWrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black; /* Set background color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #videoPlayer {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="videoWrapper">
+        <video id="videoPlayer" controls autoplay loop>
+            <source src="C:\Users\pramo\OneDrive\Desktop\jarvisUI\jarvis-main\y.mp4" type="video/mp4">
+            <!-- Add additional source tags for other video formats if necessary -->
+        </video>
+    </div>
+
+    <script>
+        // Get a reference to the video element
+        var video = document.getElementById('videoPlayer');
+        var videoWrapper = document.getElementById('videoWrapper');
+
+        // Set up event listener to toggle fullscreen when 'f' key is pressed
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'f') {
+                if (videoWrapper.requestFullscreen) {
+                    videoWrapper.requestFullscreen();
+                } else if (videoWrapper.mozRequestFullScreen) { /* Firefox */
+                    videoWrapper.mozRequestFullScreen();
+                } else if (videoWrapper.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                    videoWrapper.webkitRequestFullscreen();
+                } else if (videoWrapper.msRequestFullscreen) { /* IE/Edge */
+                    videoWrapper.msRequestFullscreen();
+                }
+            }
+        });
+
+        // Set up event listener to destroy the player when 'q' key is pressed
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'q') {
+                video.pause();  // Pause the video
+                document.exitFullscreen();  // Exit fullscreen
+                document.body.innerHTML = '';  // Clear the HTML content
+            }
+        });
+
+        // Ensure the video continues playing in a loop
+        video.addEventListener('ended', function() {
+            this.play();
+        }, false);
+    </script>
+</body>
+</html>
